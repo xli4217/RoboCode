@@ -1,0 +1,299 @@
+# Product Requirements Document: Robotics Code Generation Model Evaluation Framework
+
+## Executive Summary
+
+This project aims to develop a comprehensive evaluation framework for selecting optimal open-source language models specialized in robotics code generation. The framework will systematically assess models across multiple dimensions including inference performance, coding accuracy, and robotics-specific task completion capabilities.
+
+## Project Overview
+
+### Objectives
+- Identify and evaluate top-performing open-source language models for robotics code generation
+- Establish benchmarking methodology for robotics-specific coding tasks
+- Create reproducible evaluation pipeline with automated testing infrastructure
+- Generate data-driven recommendations for model selection and deployment
+
+### Success Criteria
+- Complete evaluation of 10-15 models across 5 size categories
+- Achieve <10% variance in performance measurements across test runs
+- Successfully demonstrate ROS2 package generation and navigation tasks
+- Publish comprehensive leaderboard with deployment recommendations
+
+### Target Timeline
+- Model Survey & Selection: 1 week
+- Infrastructure Setup: 1 week  
+- Inference Performance Testing: 2 weeks
+- Robotics Benchmark Development: 2 weeks
+- Evaluation & Reporting: 1 week
+
+## Technical Requirements
+
+### 1. Model Survey and Selection
+
+#### Sources for Candidate Models
+- **Hugging Face Hub**: Search for models tagged with "code", "robotics", "ROS"
+- **OpenRouter**: Survey available OSS models with coding capabilities
+- **LMSys Chatbot Arena**: Identify top-performing code models
+- **Papers With Code**: Recent publications on code generation models
+- **Eleuther AI**: Community-driven models with strong coding performance
+- **Vendor Blogs**: Meta (Code Llama), Mistral, Qwen, DeepSeek releases
+
+#### Selection Criteria
+- **License**: Must be permissive (Apache 2.0, MIT, or similar commercial-friendly)
+- **Specialization**: Code-focused training or demonstrated coding performance
+- **Maintenance**: Active development within last 6 months
+- **Documentation**: Clear tokenizer, context window, and usage specifications
+- **Evaluation Data**: Existing benchmark scores on HumanEval, MBPP, or similar
+
+#### Required Metadata Collection
+For each candidate model:
+- Model name and exact version/commit hash
+- Parameter count and architecture details
+- License type and commercial usage rights
+- Context window size and effective length
+- Tokenizer type and special tokens
+- Coding evaluation scores (HumanEval, MBPP, CodeT5, etc.)
+- Quantization readiness (FP8, AWQ, GPTQ INT4 support)
+- Memory requirements (FP16 vs quantized)
+
+### 2. Model Categorization and Selection
+
+#### Size-Based Categories
+- **Micro Models**: ≤7B parameters (edge deployment, fast inference)
+- **Small Models**: 8-15B parameters (balanced performance/speed)
+- **Medium Models**: 16-34B parameters (higher capability, moderate resources)
+- **Large Models**: 35-70B parameters (maximum capability, high resources)
+- **XL Models**: >70B parameters (research/comparison baseline)
+
+#### Selection Strategy
+- Choose 2-3 representative models per size category
+- Prioritize models with strong coding benchmarks
+- Include at least one Llama-based and one non-Llama architecture per category
+- Ensure mix of base and instruction-tuned variants
+- Pin exact model commits and tokenizer versions for reproducibility
+
+### 3. Infrastructure and Testing Environment
+
+#### AWS Infrastructure Requirements
+
+**Instance Types by Model Size:**
+- **≤7B**: g6.xlarge (1x L4, 4 vCPU, 16GB RAM)
+- **8-15B**: g6.4xlarge (1x L4, 16 vCPU, 64GB RAM)
+- **16-34B**: g6.12xlarge (4x L4, 48 vCPU, 192GB RAM)
+- **35-70B**: g6.24xlarge (4x L4, 96 vCPU, 384GB RAM)
+- **>70B**: p4d.24xlarge (8x A100, 96 vCPU, 1152GB RAM)
+- **CPU Fallback**: c7i.metal (128 vCPU, 256GB RAM) for comparison
+
+**Software Stack:**
+- **Inference Engines**: vLLM (primary), TGI (comparison)
+- **Quantization**: FP16 baseline, FP8 where supported, AWQ/GPTQ INT4
+- **Container Runtime**: Docker with NVIDIA container toolkit
+- **Orchestration**: Terraform for infrastructure, Ansible for configuration
+- **CI/CD**: GitHub Actions for automated testing pipeline
+
+#### Performance Testing Protocol
+
+**Test Prompt Categories:**
+- **Short Context (256 tokens)**: Simple function implementation
+- **Medium Context (2K tokens)**: Class design with multiple methods
+- **Long Context (8K tokens)**: Full ROS2 package structure
+- **Multi-turn (5+ exchanges)**: Iterative debugging and refinement
+
+**Metrics Collection:**
+- **Throughput**: Tokens per second (prompt + generation)
+- **Latency**: Time to first token, end-to-end completion time
+- **Resource Utilization**: GPU memory usage, GPU utilization %
+- **Scalability**: Concurrent request handling capability
+
+**Testing Methodology:**
+- Warm-up period of 10 requests before measurement
+- Minimum 100 test prompts per configuration
+- 3 test runs per configuration for statistical confidence
+- Fixed random seeds for reproducible generation
+- Export results to CSV/JSON with metadata
+
+### 4. Robotics-Specific Benchmark Suite
+
+#### Core Robotics Tasks
+
+**Task 1: TurtleBot3 Basic Bringup**
+- **Objective**: Generate launch file for TurtleBot3 simulation in Gazebo
+- **Requirements**: Robot description, joint state publisher, robot state publisher
+- **Success Criteria**: Launch without errors, robot visible in RViz
+- **Time Limit**: 3 attempts, 10 minutes total
+
+**Task 2: Teleop Control**
+- **Objective**: Create teleop node for keyboard control
+- **Requirements**: Twist message publishing, key mapping, safety limits
+- **Success Criteria**: Robot moves correctly in all directions
+- **Time Limit**: 3 attempts, 15 minutes total
+
+**Task 3: Nav2 Simple Goal Navigation**
+- **Objective**: Configure Nav2 stack for autonomous navigation
+- **Requirements**: AMCL localization, path planning, obstacle avoidance
+- **Success Criteria**: Robot navigates from start to goal without collision
+- **Time Limit**: 5 attempts, 30 minutes total
+
+**Task 4: Obstacle Avoidance**
+- **Objective**: Implement reactive obstacle avoidance behavior
+- **Requirements**: Laser scan processing, dynamic obstacle detection, smooth evasion
+- **Success Criteria**: Navigate through cluttered environment without collision
+- **Time Limit**: 5 attempts, 45 minutes total
+
+#### Evaluation Environment
+
+**Simulation Setup:**
+- **Simulator**: Gazebo Classic or Ignition Gazebo
+- **Robot Model**: TurtleBot3 Waffle Pi (standard ROS2 demo)
+- **World Files**: Standardized environments with varying complexity
+- **Sensor Suite**: LiDAR, camera, IMU, odometry
+
+**Workspace Requirements:**
+- Clean ROS2 workspace for each test
+- Standardized dependencies (nav2, gazebo_ros_pkgs, turtlebot3)
+- Automated workspace setup and cleanup
+- Version-controlled test environments
+
+#### Scoring Methodology
+
+**Quantitative Metrics:**
+- **Success Rate**: Percentage of tasks completed successfully
+- **Iterations to Success**: Number of attempts required
+- **Time to Success**: Wall-clock time from prompt to working solution
+- **Code Quality**: Static analysis scores, adherence to ROS2 conventions
+- **Simulation Performance**: Path length, navigation time, collision count
+
+**Qualitative Assessment:**
+- **Code Readability**: Clear variable names, proper commenting
+- **ROS2 Best Practices**: Proper node lifecycle, parameter handling
+- **Error Handling**: Graceful failure modes and recovery
+- **Human Intervention**: Required manual edits for functionality
+
+### 5. Automation and Reporting
+
+#### Continuous Integration Pipeline
+
+**GitHub Actions Workflow:**
+```yaml
+trigger: [push, pull_request, schedule]
+stages:
+  - infrastructure-provisioning
+  - model-deployment
+  - performance-testing
+  - robotics-benchmarking
+  - results-aggregation
+  - report-generation
+```
+
+**Automated Infrastructure:**
+- Terraform modules for reproducible AWS deployments
+- Ansible playbooks for software installation and configuration
+- Docker images with pre-configured inference stacks
+- Automated teardown to minimize costs
+
+#### Results and Reporting
+
+**Output Formats:**
+- **CSV/JSON**: Raw performance data for analysis
+- **Interactive Dashboard**: Real-time results visualization
+- **Static Reports**: PDF summaries with charts and recommendations
+- **Leaderboard**: Public-facing model rankings by category
+
+**Key Performance Indicators:**
+- **Efficiency Score**: Accuracy per dollar per hour
+- **Speed Score**: Tokens/second normalized by model size
+- **Robotics Score**: Weighted average of task completion rates
+- **Overall Ranking**: Composite score balancing all dimensions
+
+## Risk Assessment and Mitigation
+
+### Technical Risks
+- **Model Availability**: Models may be removed or updated during evaluation
+  - *Mitigation*: Pin exact commits, maintain local copies
+- **Infrastructure Costs**: AWS expenses may exceed budget
+  - *Mitigation*: Set billing alerts, automated instance termination
+- **Benchmark Reliability**: Flaky simulation environments
+  - *Mitigation*: Multiple test runs, environment validation
+
+### Timeline Risks  
+- **Model Survey Scope Creep**: Too many candidates to evaluate
+  - *Mitigation*: Strict selection criteria, maximum 15 models
+- **Benchmark Development Delays**: Complex robotics tasks take longer than expected
+  - *Mitigation*: Start with simpler tasks, iterative refinement
+
+## Deliverables
+
+### Phase 1: Model Survey (Week 1)
+- Comprehensive candidate model database (Excel/CSV)
+- Model metadata and evaluation criteria documentation
+- Selected model list with justifications
+
+### Phase 2: Infrastructure (Week 2)
+- Terraform modules for AWS deployment
+- Docker images for inference engines
+- CI/CD pipeline configuration
+- Testing documentation and runbooks
+
+### Phase 3: Performance Testing (Weeks 3-4)
+- Automated performance benchmarking suite
+- Raw performance data for all models
+- Infrastructure cost analysis
+- Performance comparison charts
+
+### Phase 4: Robotics Benchmarks (Weeks 5-6)
+- ROS2 task definition and acceptance criteria
+- Automated evaluation harness
+- Robotics performance database
+- Task completion videos and logs
+
+### Phase 5: Final Analysis (Week 7)
+- Comprehensive evaluation report
+- Model recommendation matrix
+- Deployment guides for top models
+- Public leaderboard and blog post
+
+## Resource Requirements
+
+### Team Structure
+- **Project Lead**: Overall coordination, requirements definition
+- **ML Engineer**: Model evaluation, inference optimization
+- **Robotics Engineer**: Benchmark design, ROS2 integration
+- **DevOps Engineer**: Infrastructure automation, CI/CD pipeline
+
+### Budget Estimate
+- **AWS Infrastructure**: $5,000-10,000 (depending on model sizes and test duration)
+- **Development Tools**: $500 (monitoring, visualization tools)
+- **External APIs**: $1,000 (model hosting, evaluation services)
+- **Total**: $6,500-11,500
+
+### Timeline
+- **Total Duration**: 7 weeks
+- **Full-time Effort**: 2-3 engineers
+- **Part-time Oversight**: 1 project lead, 1 robotics expert
+
+## Acceptance Criteria
+
+### Functional Requirements
+- [ ] Complete evaluation of minimum 10 models across 5 size categories
+- [ ] Successful execution of all 4 robotics benchmark tasks
+- [ ] Automated CI/CD pipeline with <5% failure rate
+- [ ] Performance measurements with <10% variance across runs
+- [ ] Comprehensive documentation and deployment guides
+
+### Quality Requirements
+- [ ] All code follows ROS2 coding standards
+- [ ] Test coverage >80% for evaluation harness
+- [ ] Infrastructure-as-code for complete reproducibility
+- [ ] Peer review for all benchmark task definitions
+
+### Business Requirements  
+- [ ] Project delivered within timeline and budget
+- [ ] Results published as public leaderboard and blog post
+- [ ] Clear ROI justification for recommended models
+- [ ] Integration guide for selected models in robotics pipelines
+
+---
+
+**Document Version**: 1.0
+**Last Updated**: 2025-09-25
+**Next Review**: Weekly during project execution
+**Approval Required**: Technical Lead, Product Owner, Budget Authority

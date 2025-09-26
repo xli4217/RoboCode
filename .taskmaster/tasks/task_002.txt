@@ -1,0 +1,25 @@
+# Task ID: 2
+# Title: AWS Infrastructure Setup with Terraform
+# Status: pending
+# Dependencies: None
+# Priority: high
+# Description: Create infrastructure-as-code for AWS deployment of evaluation environment
+# Details:
+Implement Terraform modules for:
+1. VPC and networking
+2. Instance types per model size category
+3. Security groups and IAM roles
+4. GPU-enabled instances with NVIDIA drivers
+5. Auto-scaling groups for parallel testing
+Key components:
+- main.tf: Provider and backend configuration
+- variables.tf: Instance type mapping
+- modules/: Reusable components
+- outputs.tf: Instance IDs and endpoints
+
+# Test Strategy:
+1. Test infrastructure deployment
+2. Verify instance specifications
+3. Validate GPU support
+4. Check auto-scaling functionality
+5. Test infrastructure destruction

@@ -1,0 +1,133 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Model Survey and Database Creation",
+        "description": "Develop a comprehensive catalog of open-source code-focused models with required metadata collection through manual research, focusing specifically on models designed for code generation, completion, and understanding tasks",
+        "status": "done",
+        "dependencies": [],
+        "priority": "high",
+        "details": "Create comprehensive documentation and spreadsheets to:\n1. Research and document code-focused models like CodeLlama, StarCoder, CodeT5, WizardCoder, DeepSeek Coder from Hugging Face and other sources\n2. Maintain metadata in structured Excel/CSV files\n3. Create filtering views using spreadsheet functions\n4. Document model versions and relevant links\n5. Organize data in multiple worksheet tabs\n\nSpreadsheet Structure:\n- model_name\n- version\n- parameter_count\n- license\n- context_window\n- benchmark_scores (focusing on code-specific benchmarks like HumanEval, MBPP)\n- training_data (code repositories, programming languages covered)\n- fine_tuning_details\n- code_specific_features\n- last_updated\n- source_url\n- deployment_requirements\n- notes",
+        "testStrategy": "1. Verify completeness of model catalog against known code models\n2. Validate accuracy of metadata collection\n3. Test filtering and sorting functionality\n4. Check data consistency across worksheets\n5. Verify all code-specific benchmarks are properly documented",
+        "updatedAt": "2025-09-26T05:54:28.761Z"
+      },
+      {
+        "id": 2,
+        "title": "AWS Infrastructure for vLLM Inference Speed Benchmarking",
+        "description": "Provision AWS infrastructure using Terraform to deploy vLLM model servers and benchmark inference speed.",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "high",
+        "details": "Provision AWS infrastructure to deploy vLLM model servers and benchmark inference speed.\n\nInfrastructure Requirements:\n1. VPC and networking\n2. GPU-enabled EC2 instances with NVIDIA drivers\n3. Security groups and IAM roles\n4. Model serving infrastructure for vLLM\n\nBenchmarking Requirements:\n- vLLM server setup\n- Automated inference speed measurement (tokens/sec, latency)\n- Result logging and export",
+        "testStrategy": "1. Test infrastructure deployment\n2. Verify GPU instance specifications\n3. Validate NVIDIA driver and vLLM installation\n4. Test vLLM server startup\n5. Run inference speed benchmarks\n6. Collect and validate throughput and latency results\n7. Test infrastructure teardown",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "coding cli research",
+            "description": "",
+            "details": "",
+            "status": "pending",
+            "dependencies": [],
+            "parentTaskId": 2
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Connect Ollama and vLLM Models with Claude Code via claude-code-router",
+        "description": "Integrate Ollama and vLLM-served models with Claude Code using the claude-code-router, enabling seamless routing and unified API access.",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "high",
+        "details": "Implement a system to connect Ollama and vLLM model servers to Claude Code through the claude-code-router.\n\nIntegration Requirements:\n1. Deploy and configure Ollama and vLLM model servers\n2. Set up claude-code-router to route requests to both model backends\n3. Ensure unified API endpoints for Claude Code\n4. Handle authentication, error handling, and logging\n5. Document integration steps and configuration\n\nTesting Requirements:\n- Validate routing to both Ollama and vLLM models\n- Test Claude Code API requests and responses\n- Check error handling and fallback mechanisms\n- Confirm logging and monitoring of requests",
+        "testStrategy": "1. Deploy Ollama and vLLM servers\n2. Configure claude-code-router for both backends\n3. Send test requests via Claude Code and verify correct routing\n4. Simulate errors and validate error handling\n5. Review logs for request traceability\n6. Document the integration process"
+      },
+      {
+        "id": 4,
+        "title": "ROS2 Benchmark Environment",
+        "description": "Develop automated ROS2 testing environment with Gazebo simulation",
+        "details": "Implement:\n1. TurtleBot3 simulation setup\n2. Standardized world environments\n3. Task execution framework\n4. Metrics collection\n5. Environment reset functionality\nComponents:\n- launch files\n- world files\n- test harness\n- scoring system",
+        "testStrategy": "1. Test simulation startup\n2. Verify robot control\n3. Validate sensor data\n4. Check environment reset\n5. Test scoring system",
+        "priority": "medium",
+        "dependencies": [
+          "3"
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "Robotics Task Implementation",
+        "description": "Implement the four core robotics tasks and evaluation criteria",
+        "details": "Create task modules for:\n1. TurtleBot3 bringup\n2. Teleop control\n3. Nav2 navigation\n4. Obstacle avoidance\nInclude:\n- Success criteria checking\n- Time limit enforcement\n- Attempt tracking\n- Performance metrics",
+        "testStrategy": "1. Verify task completion criteria\n2. Test time limit handling\n3. Validate metrics collection\n4. Check attempt counting\n5. Test edge cases",
+        "priority": "medium",
+        "dependencies": [
+          "6"
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "Results Processing Pipeline",
+        "description": "Create data processing and visualization pipeline for evaluation results",
+        "details": "Implement:\n1. Raw data processing\n2. Statistical analysis\n3. Visualization generation\n4. Report template system\n5. Leaderboard generation\nOutputs:\n- CSV/JSON data\n- Performance charts\n- PDF reports\n- Interactive dashboard",
+        "testStrategy": "1. Test data processing accuracy\n2. Verify visualization correctness\n3. Validate report generation\n4. Check leaderboard updates\n5. Test dashboard functionality",
+        "priority": "medium",
+        "dependencies": [
+          "5",
+          "7"
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "Documentation Generation",
+        "description": "Create comprehensive documentation for the evaluation framework",
+        "details": "Generate:\n1. Setup guides\n2. API documentation\n3. Deployment procedures\n4. Troubleshooting guide\n5. Best practices\nFormat:\n- Markdown\n- API docs (sphinx)\n- Architecture diagrams\n- Example configurations",
+        "testStrategy": "1. Verify documentation completeness\n2. Test setup procedures\n3. Validate API examples\n4. Check troubleshooting steps\n5. Review by team members",
+        "priority": "low",
+        "dependencies": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8"
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "Cost Analysis and Optimization",
+        "description": "Implement cost tracking and optimization system",
+        "details": "Create system for:\n1. AWS cost tracking\n2. Resource utilization analysis\n3. Optimization recommendations\n4. Budget alerts\n5. Cost projection\nFeatures:\n- Daily cost tracking\n- Resource efficiency metrics\n- Automated shutdown policies\n- Budget threshold alerts",
+        "testStrategy": "1. Verify cost tracking accuracy\n2. Test alert system\n3. Validate optimization recommendations\n4. Check shutdown policies\n5. Test projection accuracy",
+        "priority": "medium",
+        "dependencies": [
+          "2",
+          "4"
+        ],
+        "status": "pending",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "version": "1.0.0",
+      "lastModified": "2025-09-26T05:54:28.761Z",
+      "taskCount": 8,
+      "completedCount": 1,
+      "tags": [
+        "master"
+      ],
+      "created": "2025-09-26T06:19:46.370Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

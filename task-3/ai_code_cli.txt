@@ -1,0 +1,34 @@
+### Mainstream AI Coding CLI Tools
+
+Based on recent discussions and benchmarks (as of September 2025), the landscape of AI-powered command-line interface (CLI) tools for coding has exploded, with a focus on "agentic" capabilities—meaning they can autonomously read, edit, debug, and manage codebases via natural language prompts. These tools integrate large language models (LLMs) like Claude, GPT-5/Codex, or Gemini to act as a "pair programmer" in your terminal.
+
+The ones you mentioned (Claude Code, Gemini CLI, Codex CLI, QwenCode, OpenCode, Crush) are all prominent, with the first three being the most "mainstream" from major players (Anthropic, Google, OpenAI). OpenCode and Crush are open-source alternatives gaining traction, while QwenCode is Alibaba's strong free/open contender. Below, I'll break them down in a comparison table, followed by other notable ones.
+
+| Tool          | Provider/Origin | Key Features | Pricing/Model Support | Strengths | Weaknesses | GitHub Stars (approx., 2025) |
+|---------------|-----------------|--------------|-----------------------|-----------|------------|------------------------------|
+| **Claude Code** | Anthropic | Autonomous editing, multi-step tasks, Git integration, MCP (Model Context Protocol) for extensions; excels in structured projects and documentation. | Paid ($20–$200/mo via Anthropic Pro/Max); Primarily Claude 4 Opus/Sonnet, but bridges to others via Claude Bridge. | Best for complex debugging and prototypes; high reliability (tops SWE-bench scores); natural language UX. | Slower for large refactors; no free tier; vendor-locked. | 18.1k |
+| **Gemini CLI** | Google | Open-source; 1M token context for huge codebases; real-time web search, diagram generation, multimodal (e.g., from PDFs/sketches); integrates with Google Cloud. | Free (1,000 req/day with Google account; higher limits via Pro/Ultra sub ~$20/mo); Gemini 2.5 Pro/Flash. | Fast for frontend/docs; generous free tier; customizable/open-source. | Less polished for agentic tasks; verbose outputs; setup hurdles for Workspace users. | 55.0k |
+| **Codex CLI** | OpenAI | Lightweight/open-source; multi-mode (suggest/edit/run); GitHub integration; cloud sandbox for safe testing. | Pay-per-use (via OpenAI API); GPT-5/Codex models, supports others like Gemini/Claude. | Fast prototyping; collaborative (PRs/commits); transparent edits. | UX issues (manual deps); lower Terminal-Bench scores; micro-changes feel slow. | 30.5k |
+| **QwenCode** | Alibaba | Fork of Gemini CLI; agentic workflows (PR review, refactoring); optimized for code gen. | Free/open-source (Apache 2.0); Qwen3-Coder (rivals GPT-4o/Claude Sonnet); OpenAI-compatible APIs. | 7x cheaper than proprietary; excellent for automation; strong benchmarks. | Less mature ecosystem; requires setup for non-Alibaba endpoints. | N/A (fork-based) |
+| **OpenCode** | Community (opencode-ai) | Go-based TUI; multi-model switching; slash commands for files; LSP integration for errors. | Free/open-source; Supports OpenAI, Claude, Gemini, Ollama/local LLMs. | Flexible providers; fast/reliable (Go speed); good for mid-session model swaps. | Early dev (features incomplete); dry UI compared to rivals. | N/A (active but forked) |
+| **Crush** | Charmbracelet (ex-OpenCode lead) | Glamorous TUI; LSP-enhanced context; extensible via MCPs; logs everything; cross-OS (incl. Windows). | Free/open-source; Multi-LLM (Anthropic, OpenAI, Ollama); no ToS-violating hacks. | Superior perf/UI (Go-built); vibrant, intuitive; free models like Qwen3 shine. | No Anthropic sub integration (ToS); still evolving post-rebrand. | N/A (rising fast) |
+
+** code rabbit cli **
+
+#### Other Notable Mainstream/Up-and-Coming Tools
+If you're looking beyond your list, here are additional ones frequently mentioned in dev communities (e.g., Reddit, X) for similar terminal-based AI coding:
+- **Aider**: Open-source; excels in iterative dev and auto-approval modes; supports Claude/GPT/Mistral/local LLMs. Great for bug fixes; free with flexible models.
+- **Warp**: AI terminal with built-in agents; focuses on workflows like task delegation. Paid tiers; integrates Claude/Gemini; strong for teams.
+- **Amazon Q Developer (AWS Q CLI)**: Session-aware; file-specific prompts for debugging/reviews. Free tier via AWS; enterprise-focused with strong memory.
+- **Cline**: Extension for VSCode but CLI-like; basic prompts with multi-model support. Free/open; underrated for quick tasks.
+- **Codebuff**: Speeds repetitive tasks; auto-comments/docs. Affordable; pairs well with others for "generalist" use.
+- **Droid (from Factory)**: Tops Terminal-Bench (beats Claude/Codex); agentic for legacy code/cloud infra. Available via CLI/Slack; raised $50M; multi-model.
+- **Roocode**: Pairs well with Claude/Gemini for "insane output" in combos; focuses on vibe/agentic coding.
+
+#### Quick Insights & Recommendations
+- **For Free/Open-Source Priority**: Start with Gemini CLI or Crush—both handle large projects without costs and support local models.
+- **For Power Users**: Claude Code remains the "gold standard" for reliability, but combine with Gemini CLI for speed on refactors.
+- **Trends**: Tools like these are shifting toward multi-model support and MCP for extensibility (e.g., adding web tools or media gen). Benchmarks like Terminal-Bench and SWE-bench favor agentic depth over raw speed.
+- **Getting Started**: Most install via npm/Go (e.g., `go install github.com/charmbracelet/crush@latest` for Crush). Test on a small repo to see workflow fit.
+
+If you share more about your stack (e.g., language, free vs. paid), I can narrow it down further!

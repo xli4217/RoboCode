@@ -1,0 +1,60 @@
+# Task ID: 1
+# Title: Model Survey and Database Creation
+# Status: in-progress
+# Dependencies: None
+# Priority: high
+# Description: Develop a comprehensive catalog of open-source code-focused models with required metadata collection through manual research, focusing specifically on models designed for code generation, completion, and understanding tasks
+# Details:
+Create comprehensive documentation and spreadsheets to:
+1. Research and document code-focused models like CodeLlama, StarCoder, CodeT5, WizardCoder, DeepSeek Coder from Hugging Face and other sources
+2. Maintain metadata in structured Excel/CSV files
+3. Create filtering views using spreadsheet functions
+4. Document model versions and relevant links
+5. Organize data in multiple worksheet tabs
+Spreadsheet Structure:
+- model_name
+- version
+- parameter_count
+- license
+- context_window
+- benchmark_scores (focusing on code-specific benchmarks like HumanEval, MBPP)
+- training_data (code repositories, programming languages covered)
+- fine_tuning_details
+- code_specific_features
+- last_updated
+- source_url
+- deployment_requirements
+- notes
+
+# Test Strategy:
+1. Verify completeness of model catalog against known code models
+2. Validate accuracy of metadata collection
+3. Test filtering and sorting functionality
+4. Check data consistency across worksheets
+5. Verify all code-specific benchmarks are properly documented
+
+# Subtasks:
+## 1. Initial Model Research [pending]
+### Dependencies: None
+### Description: Research and compile list of major open-source code models
+### Details:
+
+
+## 2. Metadata Collection [pending]
+### Dependencies: None
+### Description: Gather detailed metadata for each identified code model, including code-specific benchmarks and features
+### Details:
+
+
+## 3. Spreadsheet Creation [pending]
+### Dependencies: None
+### Description: Set up structured spreadsheet with code-specific metadata fields and filtering capabilities
+### Details:
+
+
+## 4. Documentation [pending]
+### Dependencies: None
+### Description: Create detailed documentation about each model's code generation capabilities and use cases
+### Details:
+
+
